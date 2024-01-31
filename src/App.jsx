@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
@@ -8,8 +9,8 @@ const HerbCard = ({ herb, handleShowAnswer, isShowingAnswer }) => {
       <div className="card-image-wrapper">
         <img src={herb.imageUrl} />
       </div>
-      {/* <button onClick={handleShowAnswer}>Show answer</button>
-      {isShowingAnswer ? <p>{herb.english}</p> : ""} */}
+      <button onClick={handleShowAnswer}>Show answer</button>
+      {isShowingAnswer ? <p>{herb.english}</p> : ""}
     </div>
   );
 };
@@ -19,11 +20,15 @@ function App() {
   const [isShowingAnswer, setisShowingAnswer] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/herbs").then((res) => setHerbs(res.data));
-  }, []);
+    console.log("useEffect working");
+    axios.get("http://localhost:3001/herbs").then((res) => {
+      setHerbs(res.data);
+    });
+  }, [herbs]);
 
   const dontKnows = herbs.filter((herb) => herb.status === 1).length;
   const knows = herbs.filter((herb) => herb.status === 2).length;
+
   const handleShowAnswer = () => {
     setisShowingAnswer(true);
   };
